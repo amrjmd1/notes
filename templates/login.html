@@ -1,0 +1,108 @@
+{% extends 'master.html' %}
+{% load staticfiles %}
+{% block title %}notes{% endblock %}
+{% block body %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6 left-page">
+                <div class="background-trans text-center">
+                    <img src="{% static 'img/notes.png' %}" width="100">
+                    <span class="h1 text-uppercase">notes</span>
+                    <p class="h3 text-left">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim,
+                        reiciendis!</p>
+                    <p class="text-right">Designed and developed by <a href="#">amr darwish</a></p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="formLogin">
+                    <div class="tab-content form-group">
+                        <div role="tabpanel" class="tab-pane active" id="login">
+                            <p class="h3 text-uppercase">login</p>
+                            <form id="loginForm" method="post">
+                                {% csrf_token %}
+
+                                <input placeholder="username" name="userName" class="form-control margin-input">
+                                <input type="password" placeholder="password" name="password"
+                                       class="form-control margin-input">
+                                <div class="footer-pan">
+                                    <span class="text-gray">if you don't have account <a href="#signup"
+                                                                                         aria-controls="signup"
+                                                                                         role="tab"
+                                                                                         data-toggle="tab">signup</a></span>
+                                    <button class="btn btn-info text-uppercase" type="submit" id="btnLogin">login
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="signup">
+                            <p class="h3 text-uppercase">signup</p>
+                            <form id="signupForm" method="post">
+                                {% csrf_token %}
+                                <input type="text" placeholder="name" name="name" class="form-control margin-input">
+                                <input type="text" placeholder="username" name="username"
+                                       class="form-control margin-input">
+                                <input type="password" placeholder="password" name="password"
+                                       class="form-control margin-input">
+                                <input type="password" placeholder="repassword" name="repassword"
+                                       class="form-control margin-input">
+                                <div class="footer-pan">
+                                  <span class="text-gray">if you have accout <a
+                                          href="#login" aria-controls="login"
+                                          role="tab"
+                                          data-toggle="tab">login</a></span>
+                                    <button class="btn btn-info text-uppercase" type="submit" id="btnSignup">signup
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block script %}
+    <script src="{% static "js/js.js" %}"></script>
+    <script>
+        $("#btnLogin").click(function (ev) {
+            ev.preventDefault();
+            $.ajax({
+                type: "POST",
+                url: "{% url 'chLogin' %}",
+                data: $('#loginForm').serialize(),
+                success: function (data) {
+                    if (data.login == 'Done') {
+                        window.location = "/" + data.username
+                    } else if (data.login == "null") {
+                        msg('Verify the username or password')
+                    }
+                }
+            })
+        });
+
+        $('#btnSignup').click(function (ev) {
+            ev.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: "{% url 'chSignup' %}",
+                data: $('#signupForm').serialize(),
+                success: function (data) {
+                    if (data.signup == 'done') {
+                        window.location = '/' + data.username
+                    } else if (data.signup == 'account') {
+                        msg('maybe you have account !')
+                    }
+                    else if (data.signup == 'length') {
+                        msg('Password must be longer than 8 characters !')
+                    }
+                    else if (data.signup == 'repassword') {
+                        msg('password and repassword not valid !')
+                    }
+                    else if (data.signup == 'null') {
+                        msg('you have empty input')
+                    }
+                }
+            })
+        });
+    </script>
+{% endblock %}

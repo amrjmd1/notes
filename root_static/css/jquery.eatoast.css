@@ -1,0 +1,41 @@
+.toast-container {
+    position: fixed;
+    list-style: none;
+    right: 50px;
+    z-index: 999999;
+    font-size: 14px;
+    opacity: 1 !important;
+}
+
+.toast {
+    line-height: 20px;
+    border-radius: 5px;
+    padding: 15px;
+    background: rgba(242, 120, 75, .2) !important;
+
+}
+
+.toast .message {
+    font-size: 14px;
+    line-height: 20px;
+    color: #123;
+    padding: 20px;
+}
+
+.toast button.close {
+    position: relative;
+    top: 0;
+    float: right;
+    background: #BDC3C7;
+    color: red;
+    cursor: pointer;
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    font-weight: 100;
+}
+
+.toast button.close:hover {
+    color: red
+}

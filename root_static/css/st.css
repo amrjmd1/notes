@@ -1,0 +1,247 @@
+body {
+    background: #ecf0f1;
+}
+
+.full_hi {
+    height: 100vh;
+}
+
+.left-page {
+    background-image: url("../img/background.jpg");
+    background-size: cover;
+    padding: 0;
+    height: 100vh;
+}
+
+.left-page .background-trans {
+    background: rgba(256, 256, 256, .7);
+    height: 100%;
+    color: #666;
+    padding: 10vh 20px 0;
+}
+
+.left-page .background-trans p {
+    margin-top: 50px
+}
+
+.text-gray {
+    color: #999;
+}
+
+.margin-input {
+    margin-top: 15px;
+}
+
+.formLogin {
+    width: 50%;
+    margin: 20vh auto !important;
+    padding: 5px;
+}
+
+.formLogin .nav-tabs {
+    border: none;
+}
+
+.formLogin .nav-tabs .active a, .formLogin .nav-tabs a,
+.formLogin .nav-tabs .active a:focus,
+.formLogin .nav-tabs a:focus {
+    border: none;
+    border-bottom: 1px solid transparent;
+
+}
+
+.formLogin .nav-tabs .active a {
+    border-bottom-color: #ccc;
+}
+
+.formLogin .nav-tabs .active a:hover, .formLogin .nav-tabs a:hover {
+    border: none;
+    border-bottom: 1px solid #ccc;
+    background: none;
+}
+
+.formLogin .footer-pan {
+    margin-top: 15px;
+    text-align: right;
+    line-height: 50px;
+}
+
+.formLogin .footer-pan span {
+    float: left;
+}
+
+.my-modal-footer-ch {
+    text-align: left;
+}
+
+.my-card {
+    padding: 10px;
+    margin-bottom: 3px;
+    border-radius: 4px;
+    box-shadow: 0 0 1.5px #999;
+}
+
+.my-card .title {
+    border-bottom: 1px groove rgba(0, 0, 0, .3);
+    padding-bottom: 5px;
+    font-weight: bolder;
+}
+
+.my-card p {
+    white-space: pre-wrap;
+}
+
+input[placeholder], *[placeholder] {
+    color: #112233 !important;
+}
+
+.modal-content {
+    overflow: hidden;
+}
+
+.modal-footer {
+    background: rgba(0, 0, 0, .3);
+}
+
+.sideAccount {
+    margin-bottom: 10px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.sideAccount img {
+    border-radius: 4px;
+    box-shadow: 0 0 2px #999;
+    cursor: pointer;
+}
+
+.sideAccount .account {
+    display: inline-block;
+    vertical-align: top;
+    padding-top: 8px;
+}
+
+.sideAccount .account span.user {
+    font-weight: bolder;
+    display: block;
+}
+
+.sideAccount .account span.user span {
+    color: #aaa;
+}
+
+.side {
+    display: inline-block;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 80px;
+    border-left: 1px solid #ccc;
+    padding: 10px;
+    float: right;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+#up-img .modal-content img {
+    width: 50% !important;
+    display: block;
+    margin: 10px auto;
+    box-shadow: 0 0 3px #999;
+    border-radius: 5px;
+}
+
+.side a, .side span.inter {
+    display: block;
+    color: #888;
+    transition: .1s all;
+    padding-left: 5px;
+    font-weight: lighter;
+}
+
+.side a:hover {
+    color: #555;
+}
+
+.side span {
+    display: block;
+    color: #aaa;
+    font-weight: bolder;
+}
+
+*[name="colors"] {
+    opacity: 0;
+}
+
+[name="colors"] + label {
+    content: '';
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    border: 1px solid;
+    margin-left: -18px;
+    margin-top: 7px;
+    cursor: pointer;
+    position: relative;
+}
+
+#white + label {
+    border-color: #ffff !important;
+}
+
+#yellow + label {
+    border-color: yellow !important;
+}
+
+#teal + label {
+    border-color: #1de9b6 !important;
+}
+
+#white:checked + label {
+    background: #fff;
+}
+
+#yellow:checked + label {
+    background: yellow;
+}
+
+#teal:checked + label {
+    background: #1de9b6;
+}
+
+#switch-dis {
+    display: none;
+}
+
+.switch {
+    background: #D2D7D3;
+    width: 25px;
+    height: 15px;
+    border-radius: 100px;
+    position: relative;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+.switch:after {
+    content: '';
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    background: #fff;
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+}
+
+input:checked.switch-input + .switch:after {
+    right: 0;
+    background: #03C9A9;
+}
+
+input:checked.switch-input + .switch {
+    background: #86E2D5;
+}

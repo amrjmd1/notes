@@ -1,0 +1,109 @@
+{% extends 'dashboard/masterDashboard.html' %}
+{% block body %}
+
+    <nav class="main-menu">
+        <ul>
+            <li>
+                <a href="{% url 'index' %}">
+                    <i class="fa fa-user fa-2x"></i>
+                    <span class="nav-text">
+                            account
+                        </span>
+                </a>
+            </li>
+        </ul>
+        <ul class="logout">
+            <li>
+                <a href="{% url 'logout' %}">
+                    <i class="fa fa-power-off fa-2x"></i>
+                    <span class="nav-text">
+                            Logout
+                        </span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <div class="area">
+        <div class="container cont">
+            <div class="row profile card">
+                <div class="col-md-2 avatar">
+                    <div style="background-image: url('{{ user.avatar.url }}')"></div>
+                </div>
+                <div class="col-md-6">
+                    <p class="h3">{{ user }} @ {{ user.userName }}</p>
+                    <p class="h4">you have {{ noteCount }} note</p>
+                    <p class="h4">status of your account {% if user.active %}
+                        <span class="bg-success"><i class="fa fa-check"></i> active </span> {% else %}
+                        <span class="bg-danger"><i class="fa fa-close"></i> not active </span>{% endif %}</p>
+                    <p class="h4"> your create account
+                        on {{ user.timeSignUp.day }} {{ user.timeSignUp.month }} {{ user.timeSignUp.year }}</p>
+                </div>
+            </div>
+            <p class="h3 text-uppercase"><span class="fa fa-history gray"></span>&nbsp;history</p>
+            <div class="row">
+                <div class="col-md-4 card">
+                    <p class="h4 text-uppercase"><span class="fa fa-handshake-o gray"></span>&nbsp;log <span
+                            class="hint text-lowercase">last 10 login and logout</span>
+                    </p>
+                    {% if log %}
+                        <div class="scroll-card">
+                            <table class="table table-striped">
+                                <tr>
+                                    <th>browser</th>
+                                    <th>time</th>
+                                    <th>status</th>
+                                </tr>
+                                {% for l in log reversed %}
+                                    <tr>
+                                        <td>{{ l.agent }}</td>
+                                        <td>{{ l.time }}</td>
+                                        <td>
+                                            {% if l.status %}
+                                                <i class="fa fa-lock" style="color: #0edd39"></i>
+                                            {% else %}
+                                                <i class="fa fa-lock" style="color: red"></i>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-md-4 card">
+                    <p class="h4 text-uppercase"><span class="fa fa-sticky-note-o gray"></span>&nbsp;note <span
+                            class="hint text-lowercase">last 10 add or delete note</span>
+                    </p>
+                    {% if noteHistory %}
+                        <div class="scroll-card">
+                            <table class="table table-striped">
+                                <tr>
+                                    <th>browser</th>
+                                    <th>time</th>
+                                    <th>status</th>
+                                </tr>
+                                {% for note in noteHistory %}
+                                    <tr>
+                                        <td>{{ note.agent }}</td>
+                                        <td>{{ note.time }}</td>
+                                        <td>
+                                            {% if note.status %}
+                                                <i class="fa fa-upload" style="color: #0edd39"></i>
+                                            {% else %}
+                                                <i class="fa fa-remove" style="color: red"></i>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                    {% else %}
+                        <p>you don't have any note, go to your <a href="{% url 'index' %}">account</a> to add note
+                        </p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

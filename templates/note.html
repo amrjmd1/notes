@@ -1,0 +1,293 @@
+{% extends 'master.html' %}
+{% load staticfiles %}
+
+{% block title %}note's {{ name }}{% endblock %}
+{% block style %}
+    <style>
+        body {
+            padding-top: 80px;
+        }
+    </style>
+{% endblock %}
+{% block body %}
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar navbar-brand">
+                {{ name }}<span>@{{ name.userName }}</span>
+            </div>
+        </div>
+    </nav>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-10">
+                {% if name.active %}
+                    <form id="formAddNote">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <input class="form-control" placeholder="add new note" id="inputClick" readonly>
+                        </div>
+                        <div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i
+                                                class="fa fa-close"></i></button>
+                                        <h4 class="modal-title" id="myModalLabel">add new note for {{ name }}</h4>
+                                    </div>
+                                    <div class="modal-body form-group">
+                                        <input placeholder="title..." name="title" class="form-control margin-input">
+                                        <textarea name="cont" placeholder="content note..."
+                                                  class="form-control margin-input"></textarea>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <div class="my-modal-footer-ch col-md-8">
+                                            <input name="colors" class="color-note" type="radio" id="white"
+                                                   value="#ffffff"
+                                                   checked/>
+                                            <label for="white"></label>
+
+                                            <input name="colors" class="color-note" type="radio" id="yellow"
+                                                   value="#ffff8d"/>
+                                            <label for="yellow"></label>
+
+                                            <input name="colors" class="color-note" type="radio" id="teal"
+                                                   value="#1de9b6"/>
+                                            <label for="teal"></label>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close
+                                            </button>
+                                            <button type="button" class="btn btn-primary" id="addNote">add</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="editModal">
+                        <div class="modal-dialog" role="document">
+                            <form id="editForm">
+                                {% csrf_token %}
+                                <div class="modal-content">
+                                    <div class="modal-body form-group">
+                                        <input placeholder="title..." name="title" class="form-control margin-input">
+                                        <textarea name="cont" placeholder="content note..."
+                                                  class="form-control margin-input"></textarea>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <div class="my-modal-footer-ch col-md-8">
+                                            <input name="colors" class="color-note" type="radio" id="white"
+                                                   value="#ffffff"
+                                                   checked/>
+                                            <label for="white"></label>
+
+                                            <input name="colors" class="color-note" type="radio" id="yellow"
+                                                   value="#ffff8d"/>
+                                            <label for="yellow"></label>
+
+                                            <input name="colors" class="color-note" type="radio" id="teal"
+                                                   value="#1de9b6"/>
+                                            <label for="teal"></label>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close
+                                            </button>
+                                            <button type="button" class="btn btn-primary" id="editNote">Done</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="up-img" tabindex="-1" role="dialog" aria-labelledby="up-img">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <img src="{{ name.avatar.url }}" id="show-up">
+                                <div class="modal-footer">
+                                    <form method="post" enctype="multipart/form-data" id="form-img"
+                                          action="{% url 'up-avatar' %}">
+                                        {% csrf_token %}
+                                        <label class="btn btn-default btn-file">
+                                            Browse <input type="file" name="avatar" style="display: none;">
+                                        </label>
+                                        <button class="btn btn-info" id="change-img" type="submit">Done</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% if note %}
+                    {% for i in note  reversed %}
+                        <div class="my-card" style="background: {{ i.background }};" id="{{ i.id }}">
+                            {{ i.timePost }}
+                            {% if i.title and i.textNote %}
+                                <h4 class="title">{{ i.title }}</h4>
+                                <p>{{ i.textNote }}</p>
+                            {% elif i.title %}
+                                <h4>{{ i.title }}</h4>
+                            {% else %}
+                                <p>{{ i.textNote }}</p>
+                            {% endif %}
+                            {% if name.active %}
+                                <div class="sittings" data-id="{{ i.id }}">
+                                    <i class="fa fa-edit editNote"></i>
+                                    <i class="fa fa-trash-o delete"></i>
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="text-center">
+                        <img src="{% static "img/note.png" %}">
+                        <h4>no notes for {{ name }}</h4>
+                    </div>
+
+                {% endif %}
+            </div>
+
+            <div class="sideAccount col-lg-2 visible-lg">
+                <img src="{{ name.avatar.url }}" width="60">
+                <div class="account">
+                <span class="user text-uppercase">{{ name }} <span
+                        class="text-lowercase">@{{ name.userName }}</span></span>
+                    <span id="count" class="count">{{ note.count }}&nbsp;note</span>
+                </div>
+            </div>
+            <div class="side visible-lg">
+                <span>account</span>
+                <a href="{% url 'logout' %}">logout</a>
+                <span class="inter">Activate Account <input name="active" type="checkbox" id="switch-dis"
+                                                            class="switch-input"
+                                                            {% if name.active %}checked{% endif %}><label
+                        for="switch-dis"
+                        class="switch"></label></span>
+                <span>dashboard</span>
+                <a href="{% url 'indexDashboard' %}">Dashboard</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static "js/js.js" %}"></script>
+    <script>
+        var count = {{ note.count }};
+        $('#switch-dis').change(function () {
+            $.ajax({
+                type: "GET",
+                url: "{% url 'disableAccount' %}",
+                success: function (data) {
+                    if (data.active == 'done') {
+                        if (data.status) {
+                            msg('Activate your account')
+                        } else {
+                            msg('Deactivate your account')
+                        }
+                        setTimeout(function () {
+                            location.reload()
+                        }, 3000);
+                    }
+                }
+            })
+        })
+        {% if name.active %}
+
+            {#        $('#change-img').click(function (ev) {#}
+            {#            ev.preventDefault();#}
+            {#            $.ajax({#}
+            {#                type: "POST",#}
+            {#                url:{% url 'up-avatar' %},#}
+            {#                data: $('#form-img').serialize(),#}
+            {#                success: function (data) {#}
+            {#                    $('#up-img').modal('hide')#}
+            {#                    console.log(data.msg)#}
+            {#                }#}
+            {#            })#}
+            {#        })#}
+
+            $("#addNote").click(function (ev) {
+                ev.preventDefault();
+                $.ajax({
+                    type: "POST",
+                    url: "{% url 'addNote' %}",
+                    data:
+                        $('#formAddNote').serialize(),
+                    success:
+                        function (data) {
+                            if (data.msg == 'done') {
+                                $('[name="title"]').val('')
+                                $('[name="cont"]').val('')
+                                $('#white').click()
+                                count++;
+                                $('#count').html(count + ' note')
+                                $('#add').modal('hide')
+                                var note = data.renote;
+                                if (note[0] != '' && note[1] != '') {
+                                    $('#formAddNote').after('<div class="my-card" style="background:' + note[2] + '"><h4 class="title">' + note[0]
+                                        + '</h4><p>' + note[1] + '</p></div>')
+                                } else if (note[0] != '') {
+                                    $('#formAddNote').after('<div class="my-card" style="background:' + note[2] + '"><h4>' + note[0]
+                                        + '</h4></div>')
+                                } else {
+                                    $('#formAddNote').after('<div class="my-card" style="background:' + note[2] + '"><p>' + note[1]
+                                        + '</p></div>')
+                                }
+                            } else if (data.msg == 'nop') {
+                                swal(
+                                    'Oops...',
+                                    'Pleas Enter Any Data or close!',
+                                    'warning'
+                                )
+                            }
+                        }
+                })
+            });
+
+            $('.editNote').click(function () {
+                var id = $(this).parent().data('id');
+                $('#edit').modal('show')
+                $('#editForm [name="title"]').val(id)
+            });
+            $('.delete').click(function () {
+                var id = $(this).parent().data('id');
+                swal({
+                    title: "Are you sure?",
+                    text: "Once deleted, you will not be able to recover this note!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                }).then(function (result) {
+                        if (result) {
+                            $.ajax({
+                                type: "GET",
+                                url: "{% url 'deleteNote' 0 %}".replace(0, id),
+                                success: function (data) {
+                                    if (data.msg == 'done') {
+                                        $.toast.show({
+                                            text: 'Note deleted!',
+                                            align: 'bottom',
+                                            animate: 'slide',
+                                            closeBtn: 'true'
+                                        })
+                                        $('#' + id + '').remove()
+                                        count--;
+                                        $('#count').html(count + ' note')
+                                    } else if (data.msg == 'null') {
+                                        swal(
+                                            'Oops...',
+                                            'There is something wrong, try again!',
+                                            'error'
+                                        )
+                                    }
+                                }
+                            });
+                        }
+                    }
+                )
+            })
+
+        {% endif %}
+    </script>
+{% endblock %}

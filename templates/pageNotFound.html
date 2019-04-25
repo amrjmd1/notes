@@ -1,0 +1,63 @@
+{% extends 'master.html' %}
+{% load staticfiles %}
+{% block title %}
+    page not found
+{% endblock %}
+{% block style %}
+    <style>
+        .back {
+            background-image: url("{% static 'img/404.png' %}");
+            background-position: center;
+            background-size: 100vh;
+            background-repeat: no-repeat;
+            height: 100vh;
+        }
+
+        .col-md-6:first-child {
+            padding-top: 22vh;
+            padding-left: 10%;
+        }
+
+        li {
+            font-size: 16px;
+            line-height: 1.2em;
+        }
+
+        .h1 {
+            font-weight: bolder;
+        }
+
+        .btn {
+            float: right;
+            margin-top: 25px;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+    <div class="row">
+        <div class="col-md-6">
+            <p class="h2"><span class="h1">Hmm.</span> We're having trouble finding that page.</p>
+            <div class="h4">
+                <p>If that address is correct, here are three other things you can try:</p>
+                <ul>
+                    <li>Try again later.</li>
+                    <li>if you have account you can <a href="{% url 'index' %}">login</a>.</li>
+                    <li>if you don't have account you can <a href="{% url 'index' %}">signup</a>.</li>
+                </ul>
+            </div>
+            <button class="btn btn-info" id="reload">Try Again</button>
+        </div>
+        <div class="col-md-6 back">
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script>
+        $('#reload').click(function () {
+            location.reload()
+        })
+    </script>
+{% endblock %}

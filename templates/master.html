@@ -1,0 +1,26 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="icon" href="{% static 'img/notes.png' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/jquery.eatoast.css' %}">
+    <link rel="stylesheet" href="{% static 'css/st.css' %}">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+    {#sweett alert#}
+    <script src="{% static 'js/sweetalert.js' %}"></script>
+    {% block style %}
+    {% endblock %}
+</head>
+<body>
+{% block body %}
+{% endblock %}
+<script src="{% static "js/jquery-3.1.1.min.js" %}"></script>
+<script src="{% static "js/bootstrap.min.js" %}"></script>
+<script src="{% static "js/jquery.eatoast.min.js" %}"></script>
+{% block script %}
+{% endblock %}
+</body>
+</html>
